@@ -8,7 +8,7 @@ export class SearchService {
   constructor(private http: Http) { }
 
   getAll() {
-    return this.http.get('./app/shared/data/people.json')
+    return this.http.get('app/shared/data/people.json')
     .map((res: Response) => res.json());    
   }  
   
@@ -27,6 +27,22 @@ export class SearchService {
       });
       return results;
     });
+  }
+
+  get(id: number) {
+    return this.getAll().map(data => {
+      let results: any = [];
+      data.map(item => {
+        if (item.id === id) {
+          results.push(item);
+        }
+      });
+      return results;
+    });
+  }
+
+  save(person: Person) {
+    localStorage['person' + person.id] = JSON.stringify(person);
   }
 }
 
